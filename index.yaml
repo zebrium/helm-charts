@@ -1,0 +1,28 @@
+apiVersion: v1
+entries:
+  zlog-collector:
+  - apiVersion: v1
+    appVersion: 1.50.0
+    created: "2022-03-23T21:14:11.059294471Z"
+    description: Zebrium log collector daemonset for Kubernetes.
+    digest: 059ba64c0f8d1a0eec1dce0579839b061b5e246e4f2126519eccbdc88f4809d2
+    home: https://www.zebrium.com
+    icon: https://www.zebrium.com/hubfs/logo2.png
+    keywords:
+    - logs
+    - logging
+    - log-management
+    - agent
+    - events
+    - daemonset
+    - logger
+    maintainers:
+    - email: braeden@zebrium.com
+      name: b3arp
+    name: zlog-collector
+    sources:
+    - https://github.com/zebrium/ze-kubernetes-collector
+    urls:
+    - https://github.com/zebrium/helm-charts/releases/download/zlog-collector-1.52.0/zlog-collector-1.52.0.tgz
+    version: 1.52.0
+generated: "2022-03-23T21:14:11.059301271Z"
