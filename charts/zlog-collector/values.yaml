@@ -1,0 +1,70 @@
+image:
+  name: zebrium/zlog-collector
+  tag: latest
+  pullPolicy: Always
+
+# Extra environment variables to set for log collector container
+extraEnv: []
+
+ruby:
+  gcHeapOldObjectLimitFactor: 1.2
+
+zebrium:
+  name: zlog-collector
+  deployment: "default"
+  collectorUrl: ""
+  authToken: ""
+  autoupdate: "1"
+  ec2ApiClientTimeoutSecs: "1"
+  disableEc2MetaData: "true"
+  verifySSL: "true"
+  timezone: "UTC"
+  excludePodRegex: ""
+  tailFromHead: "true"
+  logFile: ""
+  logLevel: "info"
+  nodeLogsPath: "/var/log/*.log,/var/log/syslog,/var/log/messages,/var/log/secure"
+  excludePath: "[\"/var/log/boot.log\",\"/var/log/lastlog\"]"
+  handleHostAsConfig: false
+  flushInterval: "30s"
+  flushThreadCount: "4"
+  bufferChunkLimitSize: 8MB
+  bufferChunkLimitRecords: 40000
+  bufferTotalLimitSize: 64GB
+  bufferRetryTimeout: 1h
+  bufferRetryMaxTimes: 360
+  bufferRetryWait: 10s
+  verifyK8sApiSSL: true
+  k8sApiSecretName: ""
+  pathMapFile: ""
+  useHostEtcHostnameFile: false
+  svcgrpMapFile: ""
+
+secret:
+  enabled: true
+
+resources:
+  requests:
+    cpu: 20m
+    memory: 500Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+services:
+  automountServiceAccountTokenSupported: false
+  automountServiceAccountToken: true
+
+updateStrategy: OnDelete
+
+daemonset:
+  tolerateAllTaints: false
+  # Allow the DaemonSet to schedule on tainted nodes
+  # Use this helm cli option to set tolerations if necessary:
+  # --set 'daemonset.tolerations[0].operator=Equal,daemonset.tolerations[0].effect=NoSchedule,daemonset.tolerations[0].key=node-role.kubernetes.io/master'
+  tolerations: []
+  # Deploy on selected nodes
+  nodeSelector: {}
+  priorityClassName: ""
+  dnsPolicy: "ClusterFirst"
+

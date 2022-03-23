@@ -1,0 +1,198 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ template "zlog-collector.fullname" . }}
+  labels:
+    app: {{ template "zlog-collector.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "zlog-collector.name" . }}
+  template:
+    metadata:
+      name: {{ template "zlog-collector.fullname" . }}
+      labels:
+        app: {{ template "zlog-collector.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ template "zlog-collector.fullname" . }}
+      {{- if .Values.daemonset.priorityClassName }}
+      priorityClassName: {{ .Values.daemonset.priorityClassName }}
+      {{- end }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      containers:
+        - name: {{ template "zlog-collector.fullname" . }}
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+{{- if eq .Values.zebrium.autoupdate "1" }}
+          imagePullPolicy: "Always"
+{{- else }}
+          imagePullPolicy: "{{.Values.image.pullPolicy}}"
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          env:
+            - name: ZE_LOG_COLLECTOR_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "zlog-collector.fullname" . }}-config
+                  key: log-collector-url
+            - name: ZE_LOG_COLLECTOR_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "zlog-collector.fullname" . }}-config
+                  key: auth-token
+            - name: K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: ZE_HANDLE_HOST_AS_CONFIG
+              value: "{{ .Values.zebrium.handleHostAsConfig }}"
+            - name: ZE_DEPLOYMENT_NAME
+              value: "{{ .Values.zebrium.deployment }}"
+            - name: ZE_TIMEZONE
+              value: "{{ .Values.zebrium.timezone }}"
+            - name: EXCLUDE_POD_REGEX
+              value: "{{ .Values.zebrium.excludePodRegex }}"
+            - name: EC2_API_CLIENT_TIMEOUT_SECS
+              value: "{{ .Values.zebrium.ec2ApiClientTimeoutSecs }}"
+            - name: DISABLE_EC2_META_DATA
+              value: "{{ .Values.zebrium.disableEc2MetaData }}"
+            - name: TAIL_FROM_HEAD
+              value: "{{ .Values.zebrium.tailFromHead }}"
+            - name: FLUENTD_LOG_FILE
+              value: "{{ .Values.zebrium.logFile }}"
+            - name: ZE_LOG_LEVEL
+              value: "{{ .Values.zebrium.logLevel }}"
+            - name: NODE_LOGS_PATH
+              value: "{{ .Values.zebrium.nodeLogsPath }}"
+            - name: EXCLUDE_PATH
+              value: {{quote .Values.zebrium.excludePath }}
+            - name: FLUSH_INTERVAL
+              value: "{{ .Values.zebrium.flushInterval }}"
+            - name: FLUSH_THREAD_COUNT
+              value: "{{ .Values.zebrium.flushThreadCount }}"
+            - name: BUFFER_CHUNK_LIMIT_SIZE
+              value: "{{ .Values.zebrium.bufferChunkLimitSize }}"
+            - name: BUFFER_CHUNK_LIMIT_RECORDS
+              value: "{{ .Values.zebrium.bufferChunkLimitRecords }}"
+            - name: BUFFER_TOTAL_LIMIT_SIZE
+              value: "{{ .Values.zebrium.bufferTotalLimitSize }}"
+            - name: BUFFER_RETRY_TIMEOUT
+              value: "{{ .Values.zebrium.bufferRetryTimeout }}"
+            - name: BUFFER_RETRY_MAX_TIMES
+              value: "{{ .Values.zebrium.bufferRetryMaxTimes }}"
+            - name: BUFFER_RETRY_WAIT
+              value: "{{ .Values.zebrium.bufferRetryWait }}"
+            - name: RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR
+              value: "{{ .Values.ruby.gcHeapOldObjectLimitFactor }}"
+            - name: VERIFY_SSL
+              value: "{{ .Values.zebrium.verifySSL }}"
+{{- if ne .Values.zebrium.pathMapFile "" }}
+            - name: ZE_PATH_MAP_FILE
+              value: {{- (print " /mnt/filepathmap.d/" .Values.zebrium.pathMapFile) }}
+{{- end }}
+{{- if ne .Values.zebrium.svcgrpMapFile "" }}
+            - name: ZE_NS_SVCGRP_MAP_FILE
+              value: {{- (print " /mnt/svcgrpmapfile.d/" .Values.zebrium.svcgrpMapFile) }}
+{{- end }}
+            - name: K8S_METADATA_FILTER_VERIFY_SSL
+              value: "{{ .Values.zebrium.verifyK8sApiSSL }}"
+{{- if .Values.extraEnv }}
+{{ toYaml .Values.extraEnv | indent 12 }}
+{{- end }}
+          volumeMounts:
+{{- if ne .Values.zebrium.pathMapFile "" }}
+            - name: file-path-map-cm
+              mountPath: /mnt/filepathmap.d/
+{{- end }}
+            {{- if ne .Values.zebrium.svcgrpMapFile "" }}
+            - name: ns-svc-grp-cm
+              mountPath: /mnt/svcgrpmapfile.d/
+            {{- end }}
+            - name: host-var-logs
+              mountPath: /var/log/
+              readOnly: true
+            - name: host-run-log
+              mountPath: /run/log/
+              readOnly: true
+            - name: host-var-lib-docker
+              mountPath: /var/lib/docker/
+              readOnly: true
+            - name: host-var-cache
+              mountPath: /mnt/var/cache/
+            {{- if .Values.zebrium.useHostEtcHostnameFile }}
+            - name: host-etc-hostname
+              mountPath: /mnt/etc/hostname
+              readOnly: true
+            {{- end }}
+            {{- if eq .Values.zebrium.timezone "" }}
+            - name: host-etc-localtime
+              mountPath: /etc/localtime
+              readOnly: true
+            {{- end }}
+            {{- if ne .Values.zebrium.k8sApiSecretName "" }}
+            - name: k8s-api-secret
+              mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              readOnly: true
+            {{- end }}
+      volumes:
+      - name: host-var-logs
+        hostPath:
+          path: /var/log
+      - name: host-run-log
+        hostPath:
+          path: /run/log
+      - name: host-var-cache
+        hostPath:
+          path: {{ template "zlog-collector.cache" .}}
+      - name: host-var-lib-docker
+        hostPath:
+          path: /var/lib/docker
+    {{- if ne .Values.zebrium.pathMapFile "" }}
+      - name: file-path-map-cm
+        configMap:
+          name: filepathmap-cm
+    {{- end }}
+    {{- if ne .Values.zebrium.svcgrpMapFile "" }}
+      - name: ns-svc-grp-cm
+        configMap:
+          name: ns-svcgrp-cm
+    {{- end }}
+    {{- if .Values.zebrium.useHostEtcHostnameFile }}
+      - name: host-etc-hostname
+        hostPath:
+          path: /etc/hostname
+    {{- end }}
+    {{- if eq .Values.zebrium.timezone "" }}
+      - name: host-etc-localtime
+        hostPath:
+          path: /etc/localtime
+    {{- end }}
+    {{- if ne .Values.zebrium.k8sApiSecretName "" }}
+      - name: k8s-api-secret
+        secret:
+          secretName: {{ .Values.zebrium.k8sApiSecretName }}
+    {{- end }}
+    {{- if .Values.daemonset.tolerations }}
+      tolerations:
+        {{- if .Values.daemonset.tolerateAllTaints }}
+        - operator: Exists
+        {{- else }}
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - operator: Exists
+          effect: NoExecute
+          tolerationSeconds: 300
+      {{- end }}
+      {{- if .Values.daemonset.tolerations }}
+{{ toYaml .Values.daemonset.tolerations | indent 8 }}
+    {{- end }}
+    {{- if .Values.daemonset.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.daemonset.nodeSelector | indent 8 }}
+    {{- end }}
+  updateStrategy:
+    type: "{{ .Values.updateStrategy }}"
