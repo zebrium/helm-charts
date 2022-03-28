@@ -187,7 +187,6 @@ spec:
           effect: NoExecute
           tolerationSeconds: 300
       {{- end }}
-      {{- if .Values.daemonset.tolerations }}
 {{ toYaml .Values.daemonset.tolerations | indent 8 }}
     {{- end }}
     {{- if .Values.daemonset.nodeSelector }}
