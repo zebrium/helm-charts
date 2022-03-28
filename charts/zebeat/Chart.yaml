@@ -1,0 +1,18 @@
+apiVersion: v2
+name: zebeat
+description: Helm chart for the deployment of zebeat, Zebrium's Elastic beat integration
+type: application
+version: 0.1.0
+appVersion: "0.3.0"
+maintainers:
+- name: b3arp
+  email: braeden@zebrium.com
+home: https://www.zebrium.com
+icon: https://www.zebrium.com/hubfs/logo2.png
+sources:
+- https://github.com/zebrium/helm-charts/tree/main/charts/zebeat
+keywords:
+- elastic
+- zebrium
+- beat
+- rcaas
