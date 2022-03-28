@@ -1,0 +1,12 @@
+metricbeat.yml: |
+  metricbeat.modules:
+  - module: zebrium
+    metricsets:
+      - "logs"
+      - "detections"
+    enabled: true
+    period: 10s
+    hosts: ["https://example.com"]
+    access_tokens_file: "/tokens/access_tokens.yml"
+  output.logstash:
+    hosts: ["logstash:5044"]

@@ -1,0 +1,81 @@
+{{ template "chart.header" . }}
+{{ template "chart.description" . }}
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+
+## Installing the Chart
+
+To install the chart with the release name `zebrium`:
+
+```console
+$ helm repo add zebrium http://charts.zebrium.com
+$ helm upgrade -i zlog-collector zebrium/zlog-collector --namespace zebrium --create-namespace --set zebrium.collectorUrl=YOUR_ZE_API_URL,zebrium.authToken=YOUR_ZE_API_AUTH_TOKEN,zebrium.deployment=YOUR_DEPLOYMENT_NAME,zebrium.timezone=KUBERNETES_HOST_TIMEZONE
+```
+`KUBERNETES_HOST_TIMEZONE` is the timezone setting on kubernetes host, for example, "UTC" or "America/Los_Angeles". If this option is not provided, default value UTC will be used.
+
+## Uninstalling
+To uninstall the chart with the release name `zebrium`:
+```console
+helm delete zlog-collector -n zebrium
+```
+
+## Additional Information
+
+### Log Path Mapping
+Log path mapping is the process of detecting semantic items in log file paths (ids, configs and tags)
+then including them in the Zebrium log data. This is enabled by providing a JSON mapping file to
+the log collector, as described in the repo at https://www.github.com/zebrium/ze-fluentd-plugin. To use this functionality with the supplied
+helm chart a **customValues.yaml** file should be completed and supplied to the **helm install**
+command line with:
+
+```
+helm install ... -f customValues.yaml ...
+```
+
+A prototype example_logPathMappings.yaml file is provided in the repo under the example directory, with format:
+
+```
+overridePMFConfig: true
+zebrium:
+pathMapFile: "pathMapFile.json"
+customPMFConfig: {
+"mappings": {
+"patterns":["/var/log/remote_logs/(?<host>[^/]+)/.*"],
+    "tags": [],
+    "ids" : [
+    "host"],
+    "configs": []
+    }
+    }
+```
+### Custom Namespace to Service Group Mapping
+Custom Namespace to Service Group Matching is the process of dynamically assigning a service group to a log stream based on the resources namesapce. This is enabled by providing a JSON mapping file to
+the log collector. To use this functionality with the supplied
+helm chart a **customValues.yaml** file should be completed and supplied to the **helm install**
+command line with:
+
+```
+helm install ... -f customValues.yaml ...
+```
+
+A prototype example_ns_svcgrp.yaml file is provided in the repo under the example directory, with format:
+
+```
+overrideSVCGRPConfig: true
+zebrium:
+svcgrpMapFile: "svcgrpMapFile.json"
+customSVCGRPConfig: {
+"mynamespace1" : "svcgrp1",
+"mynamespace2" : "svcgrp1",
+"mynamespace3" : "svcgrp3"
+}
+```
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}

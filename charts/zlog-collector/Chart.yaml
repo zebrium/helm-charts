@@ -14,7 +14,7 @@ keywords:
 home: https://www.zebrium.com
 icon: https://www.zebrium.com/hubfs/logo2.png
 sources:
-- https://github.com/zebrium/ze-kubernetes-collector
+- https://github.com/zebrium/helm-charts/tree/main/charts/zlog-collector
 maintainers:
 - name: b3arp
   email: braeden@zebrium.com

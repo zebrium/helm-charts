@@ -1,0 +1,31 @@
+extraEnvs:
+ - name: "ELASTICSEARCH_USERNAME"
+   valueFrom:
+     secretKeyRef:
+       name: elasticsearch-master-credentials
+       key: username
+ - name: "ELASTICSEARCH_PASSWORD"
+   valueFrom:
+     secretKeyRef:
+       name: elasticsearch-master-credentials
+       key: password
+secretMounts:
+  - name: elasticsearch-master-certs
+    secretName: elasticsearch-master-certs
+    path: /usr/share/metricbeat/certs/
+metricbeat.yml: |
+  metricbeat.modules:
+  - module: zebrium
+    metricsets:
+      - "logs"
+      - "detections"
+    enabled: true
+    period: 10s
+    hosts: ["https://example.com"]
+    access_tokens_file: "/tokens/access_tokens.yml"
+  output.elasticsearch:
+    hosts: '["https://${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}"]'
+    username: '${ELASTICSEARCH_USERNAME}'
+    password: '${ELASTICSEARCH_PASSWORD}'
+    ssl.enabled: true
+    ssl.certificate_authorities: ["/usr/share/metricbeat/certs/ca.crt"]

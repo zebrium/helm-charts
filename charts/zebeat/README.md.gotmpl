@@ -1,0 +1,31 @@
+{{ template "chart.header" . }}
+{{ template "chart.description" . }}
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+
+## Installing the Chart
+
+To install the chart with the release name `zebrium`:
+
+```console
+$ helm repo add zebrium http://charts.zebrium.com
+$ helm upgrade -i zebeat zebrium/zebeat --namespace zebrium --create-namespace
+```
+
+## Uninstalling
+To uninstall the chart with the release name `zebrium`:
+```console
+helm delete zebeat -n zebrium
+```
+
+## Additional Information
+### Zebeat Config
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "helm-docs.versionFooter" . }}

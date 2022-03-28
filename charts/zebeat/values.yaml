@@ -1,0 +1,98 @@
+replicaCount: 1
+
+image:
+  repository: zebrium/zebeat
+  pullPolicy: Always
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+# -- Map of access tokens for Zebrium Deployments
+accessTokens:
+  access_tokens.yml: |
+ # "https://example.com":
+ #   - "example12345"
+
+
+# -- Metricbeat Confiugration. Hosts must match all host mapped in .Values.accessTokens
+metricbeatConfig:
+  metricbeat.yml: |
+    metricbeat.modules:
+      - module: zebrium
+        metricsets:
+          - "logs"
+          - "detections"
+        enabled: true
+        period: 30s
+        hosts: ["https://echo.qa.zebrium.com"]
+        access_tokens_file: "/tokens/access_tokens.yml"
+#    output.elasticsearch:
+#      hosts: '["https://${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}"]'
+#      username: '${ELASTICSEARCH_USERNAME}'
+#      password: '${ELASTICSEARCH_PASSWORD}'
+#      ssl.enabled: true
+#      ssl.certificate_authorities: ["/usr/share/metricbeat/certs/ca.crt"]
+#    output.logstash:
+#      hosts: ["logstash:5044"]
+
+# -- A list of secrets and their paths to mount inside the pod
+# This is useful for mounting certificates for security other sensitive values
+secretMounts: {}
+ # - name: elasticsearch-master-certs
+ #   secretName: elasticsearch-master-certs
+ #   path: /usr/share/metricbeat/certs/
+
+# -- Additional Env Vars to inject into the container.
+extraEnvs: {}
+# - name: "ELASTICSEARCH_USERNAME"
+#   valueFrom:
+#     secretKeyRef:
+#       name: elasticsearch-master-credentials
+#       key: username
+# - name: "ELASTICSEARCH_PASSWORD"
+#   valueFrom:
+#     secretKeyRef:
+#       name: elasticsearch-master-credentials
+#       key: password

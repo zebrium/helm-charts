@@ -1,0 +1,35 @@
+suite: Zebeat Secret Test Suite
+templates:
+  - templates/configmap-tokens.yaml
+release:
+  name: test
+  namespace: test
+  revision: 1
+  isUpgrade: true
+tests:
+  - it: zebeat Logstash Deployment
+    values:
+      - ../examples/logstash.yml
+    asserts:
+      - isNotEmpty:
+          path: data
+      - equal:
+          path: metadata.name
+          value: test-zebeat-tokens
+      - isKind:
+          of: ConfigMap
+      - isAPIVersion:
+          of: v1
+  - it: zebeat Elastic Deployment
+    values:
+      - ../examples/elasticsearch.yml
+    asserts:
+      - isNotEmpty:
+          path: data
+      - equal:
+          path: metadata.name
+          value: test-zebeat-tokens
+      - isKind:
+          of: ConfigMap
+      - isAPIVersion:
+          of: v1

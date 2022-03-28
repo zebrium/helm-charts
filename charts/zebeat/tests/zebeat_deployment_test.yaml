@@ -1,0 +1,108 @@
+suite: Zebeat Secret Test Suite
+templates:
+  - templates/deployment.yaml
+release:
+  name: test
+  namespace: test
+  revision: 1
+  isUpgrade: true
+tests:
+  - it: zebeat Logstash Deployment
+    values:
+      - ../examples/logstash.yml
+    asserts:
+      - equal:
+          path: metadata.name
+          value: test-zebeat
+      - isKind:
+          of: Deployment
+      - isAPIVersion:
+          of: apps/v1
+      - equal:
+          path: spec.replicas
+          value: 1
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: config-volume
+            configMap:
+              name: test-zebeat-configurations
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: tokens-volume
+            configMap:
+              name: test-zebeat-tokens
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            mountPath: /config
+            name: config-volume
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            mountPath: /tokens
+            name: tokens-volume
+  - it: zebeat ElasticSearch Deployment
+    values:
+      - ../examples/elasticsearch.yml
+    asserts:
+      - equal:
+          path: metadata.name
+          value: test-zebeat
+      - isKind:
+          of: Deployment
+      - isAPIVersion:
+          of: apps/v1
+      - equal:
+          path: spec.replicas
+          value: 1
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: config-volume
+            configMap:
+              name: test-zebeat-configurations
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: tokens-volume
+            configMap:
+              name: test-zebeat-tokens
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            mountPath: /config
+            name: config-volume
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            mountPath: /tokens
+            name: tokens-volume
+      - contains:
+          path: spec.template.spec.containers[0].volumeMounts
+          content:
+            name: elasticsearch-master-certs
+            mountPath: /usr/share/metricbeat/certs/
+      - contains:
+          path: spec.template.spec.volumes
+          content:
+            name: elasticsearch-master-certs
+            secret:
+              secretName: elasticsearch-master-certs
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ELASTICSEARCH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: elasticsearch-master-credentials
+      - contains:
+          path: spec.template.spec.containers[0].env
+          content:
+            name: ELASTICSEARCH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: elasticsearch-master-credentials
