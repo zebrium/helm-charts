@@ -1,6 +1,53 @@
 apiVersion: v1
 entries:
+  zebeat:
+  - apiVersion: v2
+    appVersion: 0.3.0
+    created: "2022-03-28T22:54:13.555756557Z"
+    description: Helm chart for the deployment of zebeat, Zebrium's Elastic beat integration
+    digest: 9c18970517603a8fff7f27af07d773e155d3fe79d48dd7a898867ad50f3f76f6
+    home: https://www.zebrium.com
+    icon: https://www.zebrium.com/hubfs/logo2.png
+    keywords:
+    - elastic
+    - zebrium
+    - beat
+    - rcaas
+    maintainers:
+    - email: braeden@zebrium.com
+      name: b3arp
+    name: zebeat
+    sources:
+    - https://github.com/zebrium/helm-charts/tree/main/charts/zebeat
+    type: application
+    urls:
+    - https://github.com/zebrium/helm-charts/releases/download/zebeat-0.2.0/zebeat-0.2.0.tgz
+    version: 0.2.0
   zlog-collector:
+  - apiVersion: v1
+    appVersion: 1.50.0
+    created: "2022-03-28T22:54:13.680168502Z"
+    description: Zebrium log collector for Kubernetes.
+    digest: c60ef6441a4cbad36bd01dd7a507ad838e42ca38bf3cbc016549bbd21ae2dd7c
+    home: https://www.zebrium.com
+    icon: https://www.zebrium.com/hubfs/logo2.png
+    keywords:
+    - logs
+    - logging
+    - log-management
+    - agent
+    - events
+    - daemonset
+    - logger
+    maintainers:
+    - email: braeden@zebrium.com
+      name: b3arp
+    name: zlog-collector
+    sources:
+    - https://github.com/zebrium/helm-charts/tree/main/charts/zlog-collector
+    urls:
+    - https://github.com/zebrium/helm-charts/releases/download/zlog-collector-1.53.0/zlog-collector-1.53.0.tgz
+    version: 1.53.0
   - apiVersion: v1
     appVersion: 1.50.0
     created: "2022-03-23T21:14:11.059294471Z"
@@ -25,4 +72,4 @@ entries:
     urls:
     - https://github.com/zebrium/helm-charts/releases/download/zlog-collector-1.52.0/zlog-collector-1.52.0.tgz
     version: 1.52.0
-generated: "2022-03-23T21:14:11.059301271Z"
+generated: "2022-03-28T22:54:13.680176302Z"
