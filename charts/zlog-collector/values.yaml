@@ -67,4 +67,3 @@ daemonset:
   nodeSelector: {}
   priorityClassName: ""
   dnsPolicy: "ClusterFirst"
-
