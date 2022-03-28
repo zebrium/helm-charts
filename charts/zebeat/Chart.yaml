@@ -2,7 +2,7 @@ apiVersion: v2
 name: zebeat
 description: Helm chart for the deployment of zebeat, Zebrium's Elastic beat integration
 type: application
-version: 0.1.0
+version: 0.2.0
 appVersion: "0.3.0"
 maintainers:
 - name: b3arp
