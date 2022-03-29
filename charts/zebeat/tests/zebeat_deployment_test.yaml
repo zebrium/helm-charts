@@ -106,3 +106,12 @@ tests:
               secretKeyRef:
                 key: password
                 name: elasticsearch-master-credentials
+      - equal:
+          path:  spec.template.spec.securityContext.runAsUser
+          value: 1000
+      - equal:
+          path:  spec.template.spec.securityContext.fsGroup
+          value: 1000
+      - equal:
+          path:  spec.template.spec.securityContext.runAsNonRoot
+          value: true
