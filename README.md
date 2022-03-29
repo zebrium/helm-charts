@@ -1,5 +1,4 @@
-#Welcome to Zebrium's Helm Chart Repository
- 
+
 [Helm](https://helm.sh) must be installed to use the charts.  Please refer to
 Helm's [documentation](https://helm.sh/docs) to get started.
 
@@ -18,9 +17,3 @@ To install the <chart-name> chart:
 To uninstall the chart:
 
     helm delete my-<chart-name>
-
-##Charts
-| Chart Name |  Description| Source |
-| :---- |:---:| :---: |
-| zbeat | Zebrium's Elasticsearch Beat Integration | https://github.com/zebrium/helm-charts/tree/main/charts/zebeat | 
-| zlog-collector| Zebrium's Log Collector for Kubernetes| https://github.com/zebrium/helm-charts/tree/main/charts/zebeat|
