@@ -23,11 +23,11 @@ podAnnotations: {}
 
 
 podSecurityContext:
-   # -- default's to 1000 for zbeat user configured on container
-   runAsUser: 1000
-   # -- default's to 1000 for zbeat user configured on container
-   fsGroup: 1000
-   runAsNonRoot: true
+  # -- default's to 1000 for zbeat user configured on container
+  runAsUser: 1000
+  # -- default's to 1000 for zbeat user configured on container
+  fsGroup: 1000
+  runAsNonRoot: true
   # capabilities:
   #   drop:
   #   - ALL
