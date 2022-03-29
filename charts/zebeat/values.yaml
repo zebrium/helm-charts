@@ -63,9 +63,12 @@ metricbeatConfig:
           - "logs"
           - "detections"
         enabled: true
-        period: 30s
+        period: 10s
         hosts: ["https://echo.qa.zebrium.com"]
         access_tokens_file: "/tokens/access_tokens.yml"
+    processors:
+      - add_docker_metadata: ~
+      - add_kubernetes_metadata: ~
 #    output.elasticsearch:
 #      hosts: '["https://${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}"]'
 #      username: '${ELASTICSEARCH_USERNAME}'
