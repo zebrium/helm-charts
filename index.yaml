@@ -2,6 +2,28 @@ apiVersion: v1
 entries:
   zebeat:
   - apiVersion: v2
+    appVersion: 0.4.0
+    created: "2022-04-07T21:42:22.628563811Z"
+    description: Helm chart for the deployment of zebeat, Zebrium's Elastic beat integration
+    digest: c0792d309fc1027eee7b2b565e8d309be11221b6359d27d416b7c262dcb04a2e
+    home: https://www.zebrium.com
+    icon: https://www.zebrium.com/hubfs/logo2.png
+    keywords:
+    - elastic
+    - zebrium
+    - beat
+    - rcaas
+    maintainers:
+    - email: braeden@zebrium.com
+      name: b3arp
+    name: zebeat
+    sources:
+    - https://github.com/zebrium/helm-charts/tree/main/charts/zebeat
+    type: application
+    urls:
+    - https://github.com/zebrium/helm-charts/releases/download/zebeat-0.5.0/zebeat-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
     appVersion: 0.3.0
     created: "2022-03-29T17:47:17.558790673Z"
     description: Helm chart for the deployment of zebeat, Zebrium's Elastic beat integration
@@ -116,4 +138,4 @@ entries:
     urls:
     - https://github.com/zebrium/helm-charts/releases/download/zlog-collector-1.52.0/zlog-collector-1.52.0.tgz
     version: 1.52.0
-generated: "2022-03-29T17:47:17.558813374Z"
+generated: "2022-04-07T21:42:22.628582111Z"
