@@ -10,7 +10,8 @@ To install the chart with the release name `zebrium`:
 
 ```console
 $ helm repo add zebrium http://charts.zebrium.com
-$ helm upgrade -i zebeat zebrium/zebeat --namespace zebrium --create-namespace
+$ helm repo update
+$ helm upgrade -i zebeat zebrium/zebeat --namespace zebrium --create-namespace -f override.yaml
 ```
 
 ## Uninstalling
@@ -20,7 +21,9 @@ helm delete zebeat -n zebrium
 ```
 
 ## Additional Information
+Instructions for our full integration can be found [here](https://docs.zebrium.com/docs/monitoring/elk/)
 ### Zebeat Config
+Please see our [examples](examples/) for override.yaml templates.
 
 {{ template "chart.requirementsSection" . }}
 

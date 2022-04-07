@@ -1,3 +1,34 @@
+## Below is an example file for deploying to an elasticsearch cluster. This example makes the following 2 assumptions:
+## * Elastic Username and Password are stored in a secret defined as elasticsearch-master-credentials
+## * Elasticsearch SSL Cert is stored in a secret called elasticsearch-master-certs
+##
+## Notes:
+## * The host field in metricbeat.modules must match the array of host provided in the accessTokens section
+## * All configurations for metricbeat.yml can be found here: https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-reference-yml.html
+metricbeatConfig:
+  metricbeat.yml: |
+    metricbeat.modules:
+      - module: zebrium
+        metricsets:
+          - "logs"
+          - "detections"
+        enabled: true
+        period: 10s
+        hosts: ["https://example.com"]
+        access_tokens_file: "/tokens/access_tokens.yml"
+    processors:
+      - add_docker_metadata: ~
+      - add_kubernetes_metadata: ~
+    output.elasticsearch:
+      hosts: ["https://ELASTICSEARCH_HOST"]
+      username: '${ELASTICSEARCH_USERNAME}'
+      password: '${ELASTICSEARCH_PASSWORD}'
+      ssl.enabled: true
+      ssl.certificate_authorities: ["/usr/share/metricbeat/certs/ca.crt"]
+accessTokens:
+  access_tokens.yml: |
+    "https://example.com":
+      - "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 extraEnvs:
  - name: "ELASTICSEARCH_USERNAME"
    valueFrom:
@@ -13,19 +44,3 @@ secretMounts:
   - name: elasticsearch-master-certs
     secretName: elasticsearch-master-certs
     path: /usr/share/metricbeat/certs/
-metricbeat.yml: |
-  metricbeat.modules:
-  - module: zebrium
-    metricsets:
-      - "logs"
-      - "detections"
-    enabled: true
-    period: 10s
-    hosts: ["https://example.com"]
-    access_tokens_file: "/tokens/access_tokens.yml"
-  output.elasticsearch:
-    hosts: '["https://${ELASTICSEARCH_HOSTS:elasticsearch-master:9200}"]'
-    username: '${ELASTICSEARCH_USERNAME}'
-    password: '${ELASTICSEARCH_PASSWORD}'
-    ssl.enabled: true
-    ssl.certificate_authorities: ["/usr/share/metricbeat/certs/ca.crt"]
