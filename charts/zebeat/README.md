@@ -2,7 +2,7 @@
 
 Helm chart for the deployment of zebeat, Zebrium's Elastic beat integration
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square)
+![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square)
 
 ## Installing the Chart
 
@@ -10,7 +10,7 @@ To install the chart with the release name `zebrium`:
 
 ```console
 $ helm repo add zebrium http://charts.zebrium.com
-$ helm upgrade -i zebeat zebrium/zebeat --namespace zebrium --create-namespace
+$ helm upgrade -i zebeat zebrium/zebeat --namespace zebrium --create-namespace -f override.yaml
 ```
 
 ## Uninstalling
@@ -21,26 +21,32 @@ helm delete zebeat -n zebrium
 
 ## Additional Information
 ### Zebeat Config
+Please see our [examples](examples/) for override.yaml templates.
 
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| accessTokens | object | `{"https://example.com":["example12345"]}` | Map of access tokens for Zebrium Deployments |
+| accessTokens | object | `{"access_tokens.yml":""}` | Map of access tokens for Zebrium Deployments |
 | affinity | object | `{}` |  |
-| extraEnvs | object | `{}` | Additional Env Vars to inject into the container. |
+| extraEnvs | object | `{}` | Additional Env Vars to inject into the container.  See values.yaml for elasticsearch example |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"zebrium/zebeat"` |  |
-| image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
+| image.tag | string | `"latest"` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` |  |
-| metricbeatConfig | object | `{"metricbeat.yml":"metricbeat.modules:\n  - modules: zebrium\n    metricsets:\n      - \"logs\"\n      - \"detections\"\n    enabled: true\n    period: 30s\n    hosts: [\"https://echo.qa.zebrium.com\"]\n    access_tokens_file: \"/access_tokens.yml\"\n"}` | Metricbeat Confiugration. Hosts must match all host mapped in .Values.accessTokens |
+| metricbeatConfig | object | `{"metricbeat.yml":"metricbeat.modules:\n  - module: zebrium\n    metricsets:\n      - \"logs\"\n      - \"detections\"\n    enabled: true\n    period: 10s\n    hosts: [\"https://echo.qa.zebrium.com\"]\n    access_tokens_file: \"/tokens/access_tokens.yml\"\nprocessors:\n  - add_docker_metadata: ~\n  - add_kubernetes_metadata: ~\n"}` | Metricbeat Confiugration. Hosts must match all host mapped in .Values.accessTokens |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
+| podSecurityContext.fsGroup | int | `1000` | default's to 1000 for zbeat user configured on container |
+| podSecurityContext.runAsNonRoot | bool | `true` |  |
+| podSecurityContext.runAsUser | int | `1000` | default's to 1000 for zbeat user configured on container |
 | replicaCount | int | `1` |  |
-| resources | object | `{}` |  |
+| resources.limits.cpu | string | `"100m"` |  |
+| resources.limits.memory | string | `"128Mi"` |  |
+| resources.requests.cpu | string | `"100m"` |  |
+| resources.requests.memory | string | `"128Mi"` |  |
 | secretMounts | object | `{}` | A list of secrets and their paths to mount inside the pod This is useful for mounting certificates for security other sensitive values |
 | securityContext | object | `{}` |  |
 | serviceAccount.annotations | object | `{}` | Annotations to add to the service account |

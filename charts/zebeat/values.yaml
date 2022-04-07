@@ -4,7 +4,7 @@ image:
   repository: zebrium/zebeat
   pullPolicy: Always
   # -- Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""

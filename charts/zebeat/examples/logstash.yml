@@ -1,12 +1,25 @@
-metricbeat.yml: |
-  metricbeat.modules:
-  - module: zebrium
-    metricsets:
-      - "logs"
-      - "detections"
-    enabled: true
-    period: 10s
-    hosts: ["https://example.com"]
-    access_tokens_file: "/tokens/access_tokens.yml"
-  output.logstash:
-    hosts: ["logstash:5044"]
+## Below is an example file for deploying to a logstash endpoint.
+## Notes:
+## * The host field in metricbeat.modules must match the array of host provided in the accessTokens section
+## * All configurations for metricbeat.yml can be found here: https://www.elastic.co/guide/en/beats/metricbeat/current/metricbeat-reference-yml.html
+
+metricbeatConfig:
+  metricbeat.yml: |
+    metricbeat.modules:
+      - module: zebrium
+        metricsets:
+          - "logs"
+          - "detections"
+        enabled: true
+        period: 10s
+        hosts: ["https://example.com"]
+        access_tokens_file: "/tokens/access_tokens.yml"
+    processors:
+      - add_docker_metadata: ~
+      - add_kubernetes_metadata: ~
+    output.logstash:
+      hosts: ["logstash:5044"]
+accessTokens:
+  access_tokens.yml: |
+    "https://example.com":
+      - "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" ## ZApi Token for Associated Account
