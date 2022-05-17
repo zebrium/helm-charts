@@ -19,6 +19,8 @@ zebrium:
   disableEc2MetaData: "true"
   verifySSL: "true"
   timezone: "UTC"
+  # -- Regex String to exclude pods.
+  # EX. "^fluentbit.*" would exclude all fluentbit pods from collection
   excludePodRegex: ""
   tailFromHead: "true"
   logFile: ""

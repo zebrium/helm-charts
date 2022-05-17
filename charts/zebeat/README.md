@@ -2,7 +2,7 @@
 
 Helm chart for the deployment of zebeat, Zebrium's Elastic beat integration
 
-![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square)
+![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.0](https://img.shields.io/badge/AppVersion-0.4.0-informational?style=flat-square)
 
 ## Installing the Chart
 
@@ -10,6 +10,7 @@ To install the chart with the release name `zebrium`:
 
 ```console
 $ helm repo add zebrium http://charts.zebrium.com
+$ helm repo update
 $ helm upgrade -i zebeat zebrium/zebeat --namespace zebrium --create-namespace -f override.yaml
 ```
 
@@ -20,6 +21,8 @@ helm delete zebeat -n zebrium
 ```
 
 ## Additional Information
+Instructions for our full integration can be found [here](https://docs.zebrium.com/docs/monitoring/elk/)
+
 ### Zebeat Config
 Please see our [examples](examples/) for override.yaml templates.
 

@@ -176,7 +176,6 @@ spec:
         secret:
           secretName: {{ .Values.zebrium.k8sApiSecretName }}
     {{- end }}
-    {{- if .Values.daemonset.tolerations }}
       tolerations:
         {{- if .Values.daemonset.tolerateAllTaints }}
         - operator: Exists
@@ -187,6 +186,7 @@ spec:
           effect: NoExecute
           tolerationSeconds: 300
       {{- end }}
+    {{- if .Values.daemonset.tolerations }}
 {{ toYaml .Values.daemonset.tolerations | indent 8 }}
     {{- end }}
     {{- if .Values.daemonset.nodeSelector }}

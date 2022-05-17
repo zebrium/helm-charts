@@ -1,8 +1,8 @@
 # zlog-collector
 
-Zebrium log collector daemonset for Kubernetes.
+Zebrium log collector for Kubernetes.
 
-![Version: 1.52.0](https://img.shields.io/badge/Version-1.52.0-informational?style=flat-square) ![AppVersion: 1.50.0](https://img.shields.io/badge/AppVersion-1.50.0-informational?style=flat-square)
+![Version: 1.53.0](https://img.shields.io/badge/Version-1.53.0-informational?style=flat-square) ![AppVersion: 1.50.0](https://img.shields.io/badge/AppVersion-1.50.0-informational?style=flat-square)
 
 ## Installing the Chart
 
@@ -10,7 +10,7 @@ To install the chart with the release name `zebrium`:
 
 ```console
 $ helm repo add zebrium http://charts.zebrium.com
-$ helm helm upgrade -i zlog-collector zebrium/zlog-collector --namespace zebrium --create-namespace --repo https://raw.githubusercontent.com/zebrium/ze-kubernetes-collector/master/charts --set zebrium.collectorUrl=YOUR_ZE_API_URL,zebrium.authToken=YOUR_ZE_API_AUTH_TOKEN,zebrium.deployment=YOUR_DEPLOYMENT_NAME,zebrium.timezone=KUBERNETES_HOST_TIMEZONE
+$ helm upgrade -i zlog-collector zebrium/zlog-collector --namespace zebrium --create-namespace --set zebrium.collectorUrl=YOUR_ZE_API_URL,zebrium.authToken=YOUR_ZE_API_AUTH_TOKEN,zebrium.deployment=YOUR_DEPLOYMENT_NAME,zebrium.timezone=KUBERNETES_HOST_TIMEZONE
 ```
 `KUBERNETES_HOST_TIMEZONE` is the timezone setting on kubernetes host, for example, "UTC" or "America/Los_Angeles". If this option is not provided, default value UTC will be used.
 
