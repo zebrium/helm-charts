@@ -73,4 +73,3 @@ spec:
       - name: tokens-volume
         configMap:
           name: {{ template "zebeat.fullname" . }}-tokens
-

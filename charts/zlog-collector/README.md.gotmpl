@@ -38,16 +38,16 @@ A prototype example_logPathMappings.yaml file is provided in the repo under the 
 ```
 overridePMFConfig: true
 zebrium:
-pathMapFile: "pathMapFile.json"
+  pathMapFile: "pathMapFile.json"
 customPMFConfig: {
 "mappings": {
-"patterns":["/var/log/remote_logs/(?<host>[^/]+)/.*"],
+  "patterns":["/var/log/remote_logs/(?<host>[^/]+)/.*"],
     "tags": [],
     "ids" : [
     "host"],
     "configs": []
-    }
-    }
+  }
+}
 ```
 ### Custom Namespace to Service Group Mapping
 Custom Namespace to Service Group Matching is the process of dynamically assigning a service group to a log stream based on the resources namesapce. This is enabled by providing a JSON mapping file to
@@ -64,11 +64,11 @@ A prototype example_ns_svcgrp.yaml file is provided in the repo under the exampl
 ```
 overrideSVCGRPConfig: true
 zebrium:
-svcgrpMapFile: "svcgrpMapFile.json"
+  svcgrpMapFile: "svcgrpMapFile.json"
 customSVCGRPConfig: {
-"mynamespace1" : "svcgrp1",
-"mynamespace2" : "svcgrp1",
-"mynamespace3" : "svcgrp3"
+  "mynamespace1" : "svcgrp1",
+  "mynamespace2" : "svcgrp1",
+  "mynamespace3" : "svcgrp3"
 }
 ```
 
