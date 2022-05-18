@@ -90,6 +90,8 @@ spec:
               value: "{{ .Values.ruby.gcHeapOldObjectLimitFactor }}"
             - name: VERIFY_SSL
               value: "{{ .Values.zebrium.verifySSL }}"
+            - name: EXCLUDE_NAMESPACE_REGEX
+              value: {{ .Values.zebrium.excludeNamespaceRegex }}
 {{- if ne .Values.zebrium.pathMapFile "" }}
             - name: ZE_PATH_MAP_FILE
               value: {{- (print " /mnt/filepathmap.d/" .Values.zebrium.pathMapFile) }}
