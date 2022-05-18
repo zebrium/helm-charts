@@ -41,7 +41,9 @@ zebrium:
   pathMapFile: ""
   useHostEtcHostnameFile: false
   svcgrpMapFile: ""
-
+  # -- Regex String to Exclude Namespaces
+  #  ex. ^(?!.*(|bar|foo)) this would exclude all namespaces except foo and bar
+  excludeNamespaceRegex: ""
 secret:
   enabled: true
 
@@ -60,7 +62,7 @@ services:
 updateStrategy: OnDelete
 
 daemonset:
-  tolerateAllTaints: false
+  tolerateAllTaints: true
   # Allow the DaemonSet to schedule on tainted nodes
   # Use this helm cli option to set tolerations if necessary:
   # --set 'daemonset.tolerations[0].operator=Equal,daemonset.tolerations[0].effect=NoSchedule,daemonset.tolerations[0].key=node-role.kubernetes.io/master'
