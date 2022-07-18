@@ -44,6 +44,8 @@ zebrium:
   # -- Regex String to Exclude Namespaces
   #  ex. ^(?!.*(|bar|foo)) this would exclude all namespaces except foo and bar
   excludeNamespaceRegex: ""
+  # -- Name of the Kubernetes Cluster that the zlog-collector is deployed into
+  clusterName: ""
 secret:
   enabled: true
 
