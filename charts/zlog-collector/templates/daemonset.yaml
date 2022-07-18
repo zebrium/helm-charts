@@ -92,6 +92,8 @@ spec:
               value: "{{ .Values.zebrium.verifySSL }}"
             - name: EXCLUDE_NAMESPACE_REGEX
               value: {{ .Values.zebrium.excludeNamespaceRegex }}
+            - name: CLUSTER_NAME
+              value: {{ .Values.zebrium.clusterName }}
 {{- if ne .Values.zebrium.pathMapFile "" }}
             - name: ZE_PATH_MAP_FILE
               value: {{- (print " /mnt/filepathmap.d/" .Values.zebrium.pathMapFile) }}
