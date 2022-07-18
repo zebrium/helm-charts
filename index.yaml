@@ -114,6 +114,30 @@ entries:
   zlog-collector:
   - apiVersion: v1
     appVersion: 1.50.0
+    created: "2022-07-18T19:41:56.260475103Z"
+    description: Zebrium log collector for Kubernetes.
+    digest: 8b8c94f72563d6024ac5230b7470592aef647d34e79ee41a61cf48eca3f154bf
+    home: https://www.zebrium.com
+    icon: https://www.zebrium.com/hubfs/logo2.png
+    keywords:
+    - logs
+    - logging
+    - log-management
+    - agent
+    - events
+    - daemonset
+    - logger
+    maintainers:
+    - email: braeden@zebrium.com
+      name: b3arp
+    name: zlog-collector
+    sources:
+    - https://github.com/zebrium/helm-charts/tree/main/charts/zlog-collector
+    urls:
+    - https://github.com/zebrium/helm-charts/releases/download/zlog-collector-1.56.0/zlog-collector-1.56.0.tgz
+    version: 1.56.0
+  - apiVersion: v1
+    appVersion: 1.50.0
     created: "2022-05-18T20:02:31.280845583Z"
     description: Zebrium log collector for Kubernetes.
     digest: b98f84bec15a46f9f01073776ca719de90d701b3d17d6b9c3ffcf5026d9e469f
@@ -208,4 +232,4 @@ entries:
     urls:
     - https://github.com/zebrium/helm-charts/releases/download/zlog-collector-1.52.0/zlog-collector-1.52.0.tgz
     version: 1.52.0
-generated: "2022-05-18T20:02:31.280868884Z"
+generated: "2022-07-18T19:41:56.260502004Z"
