@@ -1,0 +1,12 @@
+apiVersion: v2
+name: raw
+description: The raw chart takes a list of Kubernetes resources and merges each resource with a default metadata.labels map and installs the result.
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+sources:
+- https://github.com/zebrium/helm-charts/tree/main/charts/raw
+- https://github.com/helm/charts/tree/master/incubator/raw
+maintainers:
+- name: b3arp
+  email: braeden@zebrium.com
