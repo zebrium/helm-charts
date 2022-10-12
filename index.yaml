@@ -1,5 +1,23 @@
 apiVersion: v1
 entries:
+  raw:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-10-12T00:03:05.973886998Z"
+    description: The raw chart takes a list of Kubernetes resources and merges each
+      resource with a default metadata.labels map and installs the result.
+    digest: bb85485b294702afecf32cc5fa87ee7fd35ce544547d2bbce1d843d3271521a6
+    maintainers:
+    - email: braeden@zebrium.com
+      name: b3arp
+    name: raw
+    sources:
+    - https://github.com/zebrium/helm-charts/tree/main/charts/raw
+    - https://github.com/helm/charts/tree/master/incubator/raw
+    type: application
+    urls:
+    - https://github.com/zebrium/helm-charts/releases/download/raw-0.1.0/raw-0.1.0.tgz
+    version: 0.1.0
   zebeat:
   - apiVersion: v2
     appVersion: 0.4.0
@@ -232,4 +250,4 @@ entries:
     urls:
     - https://github.com/zebrium/helm-charts/releases/download/zlog-collector-1.52.0/zlog-collector-1.52.0.tgz
     version: 1.52.0
-generated: "2022-07-18T19:41:56.260502004Z"
+generated: "2022-10-12T00:03:05.973915199Z"
