@@ -9,7 +9,7 @@ This repo contains all of the Internal [Helm](https://helm.sh/) charts for Zebri
 
 ## Prerequisites
 
-- Kubernetes 1.15+ with Beta APIs enabled
+- Kubernetes 1.19
 - PV provisioner support in the underlying infrastructure
 
 ## Installing [Helm](https://helm.sh)
