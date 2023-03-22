@@ -25,6 +25,7 @@ metricbeatConfig:
       password: '${ELASTICSEARCH_PASSWORD}'
       ssl.enabled: true
       ssl.certificate_authorities: ["/usr/share/metricbeat/certs/ca.crt"]
+      allow_older_versions: "true"
 accessTokens:
   access_tokens.yml: |
     "https://example.com":
